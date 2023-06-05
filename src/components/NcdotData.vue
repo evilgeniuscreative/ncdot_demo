@@ -38,9 +38,6 @@
 </template>
 
 <script>
-import { createCallExpression } from '@vue/compiler-core'
-import { VueElement } from 'vue'
-
 export default {
   data() {
     return {
@@ -64,7 +61,7 @@ export default {
   methods: {
     fetchDropdownData() {
       const re =
-        /\bIn\b|East of|West of|South of|North of|North West of|South West of|North East of|South East of|\bNear\b/gi
+        /\bIn|East of|West of|South of|North of|North West of|South West of|North East of|South East of|Near/gi
       fetch(`${import.meta.env.VITE_API_VERBOSE}`)
         .then((response) => {
           if (!response.ok) {
@@ -94,7 +91,6 @@ export default {
       // Make use of the selected values: this.reason, this.condition, this.incidentType
       // Perform further operations or API calls based on the selected values
     }
-  },
-  computed: {}
+  }
 }
 </script>
