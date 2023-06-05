@@ -38,6 +38,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import {
+  allData,
+  selectedCity,
+  selectedLocation,
+  selectedReason,
+  selectedCondition,
+  selectedType
+} from '../js/data_changes.js'
 export default {
   data() {
     return {

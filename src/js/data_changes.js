@@ -1,5 +1,12 @@
 import { ref } from 'vue'
 
+export const allData = ref({
+  all_data: null,
+  setDataValue(value) {
+    this.all_data = value
+  }
+})
+
 export const selectedCity = ref({
   selected_city: null,
   setCityValue(value) {
