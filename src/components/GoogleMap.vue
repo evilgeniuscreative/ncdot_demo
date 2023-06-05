@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <div ref="map" style="height: 400px"></div>
-  </div>
+  <div ref="map" style="height: 100%"></div>
 </template>
-
 <script>
 export default {
   mounted() {

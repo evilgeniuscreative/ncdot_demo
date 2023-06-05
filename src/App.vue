@@ -23,18 +23,18 @@ import NcdotData from './components/NcdotData.vue'
     </div>
   </nav>
 
-  <main role="main" class="container-fluid d-flex flex-row justify-content-start col-12">
-    <!-- Explanation -->
-    <!-- include main API call -->
-    <!-- dropdowns for API options -->
-    <!-- change API call if needed -->
-    <!-- map section -->
-    <!-- Drop pins where incidents are -->
-    <div class="row">
-      <div class="col-6"><NcdotData></NcdotData></div>
-      <div class="col-6"><GoogleMap></GoogleMap></div>
+  <main role="main" class="container">
+    <div class="row app-sections">
+      <div class="col-4"><NcdotData></NcdotData></div>
+      <div class="col-8"><GoogleMap></GoogleMap></div>
     </div>
   </main>
 </template>
 
 <style scoped></style>
+<!-- Explanation -->
+<!-- include main API call -->
+<!-- dropdowns for API options -->
+<!-- change API call if needed -->
+<!-- map section -->
+<!-- Drop pins where incidents are -->
