@@ -2,32 +2,49 @@
   <form>
     <div class="form-group">
       <label for="i_city">City</label>
-      <select v-model="city" class="form-control">
-        <option v-for="y in dropdownData.cities" :value="y" id="i_city">{{ y }}</option>
+      <select v-model="city" class="form-control" id="i_city" @change="onchange('city')">
+        <option v-for="y in dropdownData.cities" :value="y">
+          {{ y }}
+        </option>
       </select>
     </div>
     <div class="form-group">
       <label for="i_reason">Location</label>
-      <select v-model="location" class="form-control">
-        <option v-for="l in dropdownData.locations" :value="l" id="i_location">{{ l }}</option>
+      <select
+        v-model="location"
+        class="form-control"
+        id="i_location"
+        @change="onchange('location')"
+      >
+        <option v-for="l in dropdownData.locations" :value="l">{{ l }}</option>
       </select>
     </div>
     <div class="form-group">
       <label for="i_reason">Reason</label>
-      <select v-model="reason" class="form-control">
-        <option v-for="r in dropdownData.reasons" :value="r" id="i_reason">{{ r }}</option>
+      <select v-model="reason" class="form-control" id="i_reason" @change="onchange('reason')">
+        <option v-for="r in dropdownData.reasons" :value="r">{{ r }}</option>
       </select>
     </div>
     <div class="form-group">
       <label for="i_condition">Condition</label>
-      <select v-model="condition" class="form-control">
-        <option v-for="c in dropdownData.conditions" :value="c" id="i_condition">{{ c }}</option>
+      <select
+        v-model="condition"
+        class="form-control"
+        id="i_condition"
+        @change="onchange('condition')"
+      >
+        <option v-for="c in dropdownData.conditions" :value="c">{{ c }}</option>
       </select>
     </div>
     <div class="form-group">
       <label for="i_incident_type">Incident Type</label>
-      <select v-model="incidentType" class="form-control">
-        <option v-for="itype in dropdownData.incidentTypes" :value="itype" id="i_incident_type">
+      <select
+        v-model="incidentType"
+        class="form-control"
+        id="i_incident_type"
+        @change="onchange('incident_type')"
+      >
+        <option v-for="itype in dropdownData.incidentTypes" :value="itype">
           {{ itype }}
         </option>
       </select>
@@ -68,6 +85,9 @@ export default {
     this.fetchDropdownData()
   },
   methods: {
+    onchange: function (x) {
+      console.log(x, this[x])
+    },
     fetchDropdownData() {
       const re =
         /\bIn|East of|West of|South of|North of|North West of|South West of|North East of|South East of|Near/gi
@@ -99,6 +119,7 @@ export default {
     getData() {
       // Make use of the selected values: this.reason, this.condition, this.incidentType
       // Perform further operations or API calls based on the selected values
+      console.log('selected_city', selectedCity.selected_city)
     }
   }
 }

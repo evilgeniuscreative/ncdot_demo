@@ -10,6 +10,7 @@ export const allData = ref({
 export const selectedCity = ref({
   selected_city: null,
   setCityValue(value) {
+    console.log('set value', value)
     this.selected_city = value
   }
 })
