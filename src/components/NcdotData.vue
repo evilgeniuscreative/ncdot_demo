@@ -19,14 +19,19 @@
         v-model="location"
         class="form-control"
         id="i_location"
-        @change="onchange('location')"
+        @change="this.incidentDataStore.setLocation(location)"
       >
         <option v-for="l in dropdownData.locations" :value="l">{{ l }}</option>
       </select>
     </div>
     <div class="form-group">
       <label for="i_reason">Reason</label>
-      <select v-model="reason" class="form-control" id="i_reason" @change="onchange('reason')">
+      <select
+        v-model="reason"
+        class="form-control"
+        id="i_reason"
+        @change="this.incidentDataStore.setReason(reason)"
+      >
         <option v-for="r in dropdownData.reasons" :value="r">{{ r }}</option>
       </select>
     </div>
@@ -36,7 +41,7 @@
         v-model="condition"
         class="form-control"
         id="i_condition"
-        @change="onchange('condition')"
+        @change="this.incidentDataStore.setCondition(condition)"
       >
         <option v-for="c in dropdownData.conditions" :value="c">{{ c }}</option>
       </select>
@@ -47,7 +52,7 @@
         v-model="incidentType"
         class="form-control"
         id="i_incident_type"
-        @change="onchange('incident_type')"
+        @change="this.incidentDataStore.setType('incidentType')"
       >
         <option v-for="itype in dropdownData.incidentTypes" :value="itype">
           {{ itype }}
@@ -62,6 +67,7 @@
 <script>
 import { mapStores } from 'pinia'
 import { useIncidentStore } from '../stores/IncidentStore'
+import { lodash } from 'lodash'
 
 export default {
   computed: {
@@ -74,6 +80,7 @@ export default {
       reason: null,
       condition: null,
       incidentType: null,
+      citiesArray: [],
       dropdownData: {
         cities: [],
         locations: [],
@@ -96,9 +103,10 @@ export default {
       console.log('selectedCity:', this.incidentDataStore.selectedCity)
       return this.incidentDataStore.selectedCity
     },
-    onchange: function (x) {
-      console.log(x, this[x])
-      this.selectedCity.setCityValue(this[x])
+    cleanText(text) {
+      text = text.replaceAll('*', '')
+      text = text.replace(/<\/?[^>]+(>|$)/g, '')
+      return text.trim().substring(0, 65)
     },
     fetchDropdownData() {
       const re =
@@ -111,15 +119,17 @@ export default {
           return response.json()
         })
         .then((data) => {
+          // add to store
+          this.incidentDataStore.setData(data)
           // Create a new reactive object using Vue.set or spread operator
           this.dropdownData = {
-            cities: new Set(data.map((el) => el.city.substring(0, 50)).sort()),
+            cities: new Set(data.map((el) => this.cleanText(el.city)).sort()),
             locations: new Set(
-              data.map((el) => el.location.trim().replace(re, '').substring(0, 50)).sort()
+              data.map((el) => this.cleanText(el.location).replace(re, '')).sort()
             ),
-            reasons: new Set(data.map((el) => el.reason.trim().substring(0, 50)).sort()),
-            conditions: new Set(data.map((el) => el.condition.trim().substring(0, 50)).sort()),
-            incidentTypes: new Set(data.map((el) => el.incidentType.trim().substring(0, 50)).sort())
+            reasons: new Set(data.map((el) => this.cleanText(el.reason)).sort()),
+            conditions: new Set(data.map((el) => this.cleanText(el.condition)).sort()),
+            incidentTypes: new Set(data.map((el) => this.cleanText(el.incidentType)).sort())
           }
           console.log('this.dropDownData', this.dropdownData)
         })
@@ -129,10 +139,47 @@ export default {
         })
     },
     getData() {
-      // Make use of the selected values: this.reason, this.condition, this.incidentType
-      // Perform further operations or API calls based on the selected values
-      console.log('selected_city from getData(): ', this.getCityData())
+      const DATASET = this.incidentDataStore.ALL_DATA
+      // console.log('DATASET', DATASET.length, DATASET)
+
+      for (let i = 0; i < DATASET.length; i++) {
+        // console.log(
+        //   i,
+        //   'match?',
+        //   DATASET[i].city,
+        //   '+',
+        //   this.incidentDataStore.selectedCity,
+        //   '=',
+        //   DATASET[i].city === this.incidentDataStore.selectedCity
+        // )
+        if (DATASET[i].city === this.incidentDataStore.selectedCity) {
+          console.log('cities match', this.incidentDataStore.selectedCity)
+          this.citiesArray.push({
+            id: DATASET[i].id,
+            city: DATASET[i].city,
+            latitude: DATASET[i].latitude,
+            longitude: DATASET[i].longitude,
+            incidentType: DATASET[i].incidentType,
+            location: DATASET[i].location,
+            reason: DATASET[i].reason,
+            condition: DATASET[i].condition,
+            type: DATASET[i].type,
+            zindex: i + 666
+          })
+        }
+      }
+      this.incidentDataStore.setSelectedData(this.citiesArray)
+      console.log('citiesArray', this.citiesArray)
+
+      /*
+1. add this.citiesArray to store, as a reactive variable
+2. loop through this on the GoogleMaps component and create and drop a pin for each one with all the info
+
+
+
+*/
     }
+    // end of getData()
   }
 }
 </script>

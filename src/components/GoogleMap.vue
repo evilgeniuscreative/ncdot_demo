@@ -1,8 +1,19 @@
 <template>
-  <div ref="map" style="height: 100%"></div>
+  <div ref="map" id="map" style="height: 100%; width: 100%"></div>
 </template>
 <script>
+import { mapStores } from 'pinia'
+import { useIncidentStore } from '../stores/IncidentStore'
+import { lodash } from 'lodash'
+
 export default {
+  data() {
+    return {
+      labels: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+      labelIndex: 0,
+      map: {}
+    }
+  },
   mounted() {
     // Load the Maps JavaScript API script
     const script = document.createElement('script')
@@ -11,26 +22,54 @@ export default {
     script.async = true
     window.initMap = this.initMap
     document.head.appendChild(script)
+
+    console.log('Google Maps SELECTED_DATA', this.incidentDataStore.SELECTED_DATA)
+  },
+  computed: {
+    ...mapStores(useIncidentStore)
+  },
+  watch: {
+    incidentDataStore: {
+      immediate: true,
+      deep: true,
+      handler(newValue, oldValue) {
+        this.$nextTick(() => {
+          if (!newValue.SELECTED_DATA) {
+            return
+          } else {
+            console.log('data changed', this.incidentDataStore.SELECTED_DATA)
+            if (this.incidentDataStore.SELECTED_DATA.length > 0) {
+              this.createPins()
+            }
+          }
+          this.$refs['IncidentStore-' + newValue.SELECTED_DATA]
+        })
+      }
+    }
   },
   methods: {
+    createPins: function () {
+      console.log('createPins')
+      for (let x = 0; x < this.incidentDataStore.SELECTED_DATA.length; x++) {
+        console.log('x', x)
+        const info = this.incidentDataStore.SELECTED_DATA[x]
+        const tempTitle = `info.city \n info.location \n info.incidentType`
+        let pinName = 'pin' + x
+
+        pinName = new window.google.maps.Marker({
+          position: { lat: info.latitude, lng: info.longitude },
+          label: this.labels[this.labelIndex++ % this.labels.length],
+          title: tempTitle,
+          zoom: 12
+        })
+        pinName.setMap(this.map)
+      }
+    },
     initMap() {
       // Create the map
-      const map = new window.google.maps.Map(this.$refs.map, {
-        center: { lat: 35.975714, lng: -78.783631 },
+      this.map = new window.google.maps.Map(this.$refs.map, {
+        center: { lat: 35.2271, lng: -80.8431 },
         zoom: 12
-      })
-
-      // Add pins
-      const pin1 = new window.google.maps.Marker({
-        position: { lat: 35.975714, lng: -78.783631 },
-        map: map,
-        title: 'Pin 1'
-      })
-
-      const pin2 = new window.google.maps.Marker({
-        position: { lat: 35.975094, lng: -78.918934 },
-        map: map,
-        title: 'Pin 2'
       })
     }
   }
