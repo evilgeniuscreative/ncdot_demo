@@ -2,7 +2,12 @@
   <form>
     <div class="form-group">
       <label for="i_city">City</label>
-      <select v-model="city" class="form-control" id="i_city" @change="onchange('city')">
+      <select
+        v-model="city"
+        class="form-control"
+        id="i_city"
+        @change="this.incidentDataStore.setCity(city)"
+      >
         <option v-for="y in dropdownData.cities" :value="y">
           {{ y }}
         </option>
@@ -55,16 +60,13 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import {
-  allData,
-  selectedCity,
-  selectedLocation,
-  selectedReason,
-  selectedCondition,
-  selectedType
-} from '../js/data_changes.js'
+import { mapStores } from 'pinia'
+import { useIncidentStore } from '../stores/IncidentStore'
+
 export default {
+  computed: {
+    ...mapStores(useIncidentStore)
+  },
   data() {
     return {
       city: null,
@@ -85,8 +87,18 @@ export default {
     this.fetchDropdownData()
   },
   methods: {
+    getCityData() {
+      // console log the store
+      console.log(this.incidentDataStore)
+      // call action
+
+      // console log some state
+      console.log('selectedCity:', this.incidentDataStore.selectedCity)
+      return this.incidentDataStore.selectedCity
+    },
     onchange: function (x) {
       console.log(x, this[x])
+      this.selectedCity.setCityValue(this[x])
     },
     fetchDropdownData() {
       const re =
@@ -119,7 +131,7 @@ export default {
     getData() {
       // Make use of the selected values: this.reason, this.condition, this.incidentType
       // Perform further operations or API calls based on the selected values
-      console.log('selected_city', selectedCity.selected_city)
+      console.log('selected_city from getData(): ', this.getCityData())
     }
   }
 }

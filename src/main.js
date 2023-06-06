@@ -2,8 +2,6 @@ import './assets/main.css'
 import './scss/styles.scss'
 import * as bootstrap from 'bootstrap'
 
-import NcdotData from './components/NcdotData.vue'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
