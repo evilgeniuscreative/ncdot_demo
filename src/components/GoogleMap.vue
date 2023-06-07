@@ -53,7 +53,7 @@ export default {
       for (let x = 0; x < this.incidentDataStore.SELECTED_DATA.length; x++) {
         console.log('x', x)
         const info = this.incidentDataStore.SELECTED_DATA[x]
-        const tempTitle = `info.city \n info.location \n info.incidentType`
+        const tempTitle = info.city + '\n' + info.location + '\n' + info.incidentType
         let pinName = 'pin' + x
 
         pinName = new window.google.maps.Marker({
@@ -62,14 +62,18 @@ export default {
           title: tempTitle,
           zoom: 12
         })
+        if (x === 0) {
+          this.map.setCenter({ lat: info.latitude, lng: info.longitude })
+          this.map.setZoom(9)
+        }
         pinName.setMap(this.map)
       }
     },
     initMap() {
       // Create the map
       this.map = new window.google.maps.Map(this.$refs.map, {
-        center: { lat: 35.2271, lng: -80.8431 },
-        zoom: 12
+        center: { lat: 35.998336, lng: -78.905205 },
+        zoom: 7
       })
     }
   }

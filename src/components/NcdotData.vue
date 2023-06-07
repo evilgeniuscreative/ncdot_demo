@@ -1,3 +1,9 @@
+<!-- 
+  Dropdown selects to determine parameters for incident search
+  Value is set in state at incidentDataStore at /src/stores/incidentStore.js
+  List of values are stored in, for example, citiesArray with other relevant
+    information in the array of objects
+-->
 <template>
   <form>
     <div class="form-group">
@@ -13,7 +19,7 @@
         </option>
       </select>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="i_reason">Location</label>
       <select
         v-model="location"
@@ -23,8 +29,8 @@
       >
         <option v-for="l in dropdownData.locations" :value="l">{{ l }}</option>
       </select>
-    </div>
-    <div class="form-group">
+    </div> -->
+    <!-- <div class="form-group">
       <label for="i_reason">Reason</label>
       <select
         v-model="reason"
@@ -34,7 +40,7 @@
       >
         <option v-for="r in dropdownData.reasons" :value="r">{{ r }}</option>
       </select>
-    </div>
+    </div> -->
     <div class="form-group">
       <label for="i_condition">Condition</label>
       <select
@@ -121,7 +127,7 @@ export default {
         .then((data) => {
           // add to store
           this.incidentDataStore.setData(data)
-          // Create a new reactive object using Vue.set or spread operator
+
           this.dropdownData = {
             cities: new Set(data.map((el) => this.cleanText(el.city)).sort()),
             locations: new Set(
@@ -140,18 +146,9 @@ export default {
     },
     getData() {
       const DATASET = this.incidentDataStore.ALL_DATA
-      // console.log('DATASET', DATASET.length, DATASET)
+      console.log('DATASET', DATASET.length, DATASET)
 
       for (let i = 0; i < DATASET.length; i++) {
-        // console.log(
-        //   i,
-        //   'match?',
-        //   DATASET[i].city,
-        //   '+',
-        //   this.incidentDataStore.selectedCity,
-        //   '=',
-        //   DATASET[i].city === this.incidentDataStore.selectedCity
-        // )
         if (DATASET[i].city === this.incidentDataStore.selectedCity) {
           console.log('cities match', this.incidentDataStore.selectedCity)
           this.citiesArray.push({
@@ -168,16 +165,8 @@ export default {
           })
         }
       }
-      this.incidentDataStore.setSelectedData(this.citiesArray)
       console.log('citiesArray', this.citiesArray)
-
-      /*
-1. add this.citiesArray to store, as a reactive variable
-2. loop through this on the GoogleMaps component and create and drop a pin for each one with all the info
-
-
-
-*/
+      this.incidentDataStore.setSelectedData(this.citiesArray)
     }
     // end of getData()
   }

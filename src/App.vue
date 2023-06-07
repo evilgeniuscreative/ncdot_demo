@@ -23,8 +23,8 @@ import NcdotData from './components/NcdotData.vue'
     </div>
   </nav>
 
-  <main role="main" class="container w-full">
-    <div class="row">
+  <main role="main" class="container w-full align-items-center">
+    <div class="row with-bg">
       <div class="col-sm-5"><NcdotData></NcdotData></div>
       <div class="col-sm-7"><GoogleMap></GoogleMap></div>
     </div>
