@@ -6,8 +6,6 @@ export const useIncidentStore = defineStore('incidentData', {
     ALL_DATA: {},
     SELECTED_DATA: [],
     selectedCity: '',
-    selectedLocation: '',
-    selectedReason: '',
     selectedCondition: '',
     selectedType: ''
   }),
@@ -26,18 +24,21 @@ export const useIncidentStore = defineStore('incidentData', {
     setData(data) {
       this.ALL_DATA = data
     },
+    setCityData(selData) {
+      this.SELECTED_DATA = selData
+    },
+    setConditionsData(selData) {
+      this.SELECTED_DATA = selData
+    },
+    setIncidentsData(selData) {
+      this.SELECTED_DATA = selData
+    },
     setSelectedData(selData) {
       this.SELECTED_DATA = selData
     },
     setCity(city) {
       this.selectedCity = city
       console.log('setCity', city, this.selectedCity)
-    },
-    setLocation(location) {
-      this.selectedLocation = location
-    },
-    setReason(reason) {
-      this.selectedReason = reason
     },
     setCondition(condition) {
       this.selectedCondition = condition

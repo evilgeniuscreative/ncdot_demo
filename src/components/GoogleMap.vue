@@ -23,6 +23,8 @@ export default {
     window.initMap = this.initMap
     document.head.appendChild(script)
 
+    // TODO: Change SELECTED_DATA to the three types
+    // TODO: Merge search when more than one type is selected
     console.log('Google Maps SELECTED_DATA', this.incidentDataStore.SELECTED_DATA)
   },
   computed: {

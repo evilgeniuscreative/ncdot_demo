@@ -1,5 +1,13 @@
 @import '~bootstrap/scss/bootstrap';
 
+$border-radius-base: 8px;
+
+body {
+  background: url('durham.jpg') center center no-repeat
+    linear-gradient(180deg, rgba(82, 153, 214, 1) 0%, rgba(140, 171, 198, 1) 100%);
+  background-size: 100vw;
+}
+
 .form-group {
   margin-top: 15px;
 }
@@ -34,6 +42,38 @@
 .with-bg {
   min-height: 85vh;
   background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 8px;
+  border-radius: $border-radius-base;
   padding: 10px;
+}
+
+select.form-control {
+  border-color: #5fa0da;
+}
+
+.form-group {
+  position: relative;
+}
+.form-group:after {
+  content: '\25BC';
+  display: block;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  color: #5fa0da;
+  position: absolute;
+  bottom: 18%;
+  right: 0;
+  z-index: 9000;
+}
+
+#map {
+  border-radius: $border-radius-base;
+}
+
+.title-text-wrap {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: #efefef;
+  padding: 8px 12px;
+  border-radius: $border-radius-base;
 }

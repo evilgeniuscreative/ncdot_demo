@@ -5,6 +5,14 @@
     information in the array of objects
 -->
 <template>
+  <div class="title-text-wrap">
+    <h1>NC Incident Locator</h1>
+    <p>Select any one of the three dropdowns and click the 'Get Data' button.</p>
+    <p>
+      The map will be repositioned to the first Marker and all incidents that are current will be
+      shown and labeled, with a hover text label with more information.
+    </p>
+  </div>
   <form>
     <div class="form-group">
       <label for="i_city">City</label>
@@ -66,7 +74,7 @@
       </select>
     </div>
 
-    <button @click="getData" type="button" class="btn btn-primary mt-5">Get Data</button>
+    <button @click="getData" type="button" class="btn btn-primary mt-5 w-100">Get Data</button>
   </form>
 </template>
 
@@ -87,6 +95,8 @@ export default {
       condition: null,
       incidentType: null,
       citiesArray: [],
+      incidentsArray: [],
+      conditionsArray: [],
       dropdownData: {
         cities: [],
         locations: [],
@@ -100,15 +110,6 @@ export default {
     this.fetchDropdownData()
   },
   methods: {
-    getCityData() {
-      // console log the store
-      console.log(this.incidentDataStore)
-      // call action
-
-      // console log some state
-      console.log('selectedCity:', this.incidentDataStore.selectedCity)
-      return this.incidentDataStore.selectedCity
-    },
     cleanText(text) {
       text = text.replaceAll('*', '')
       text = text.replace(/<\/?[^>]+(>|$)/g, '')
@@ -148,26 +149,77 @@ export default {
       const DATASET = this.incidentDataStore.ALL_DATA
       console.log('DATASET', DATASET.length, DATASET)
 
-      for (let i = 0; i < DATASET.length; i++) {
-        if (DATASET[i].city === this.incidentDataStore.selectedCity) {
-          console.log('cities match', this.incidentDataStore.selectedCity)
-          this.citiesArray.push({
-            id: DATASET[i].id,
-            city: DATASET[i].city,
-            latitude: DATASET[i].latitude,
-            longitude: DATASET[i].longitude,
-            incidentType: DATASET[i].incidentType,
-            location: DATASET[i].location,
-            reason: DATASET[i].reason,
-            condition: DATASET[i].condition,
-            type: DATASET[i].type,
-            zindex: i + 666
-          })
+      // cities
+      if (this.incidentDataStore.selectedCity.length) {
+        for (let i = 0; i < DATASET.length; i++) {
+          if (DATASET[i].city === this.incidentDataStore.selectedCity) {
+            console.log('cities match', this.incidentDataStore.selectedCity)
+            this.citiesArray.push({
+              id: DATASET[i].id,
+              city: DATASET[i].city,
+              latitude: DATASET[i].latitude,
+              longitude: DATASET[i].longitude,
+              incidentType: DATASET[i].incidentType,
+              location: DATASET[i].location,
+              reason: DATASET[i].reason,
+              condition: DATASET[i].condition,
+              type: DATASET[i].type,
+              zindex: i + 666
+            })
+          }
         }
+        console.log('citiesArray', this.citiesArray)
+        this.incidentDataStore.setSelectedData(this.citiesArray)
       }
-      console.log('citiesArray', this.citiesArray)
-      this.incidentDataStore.setSelectedData(this.citiesArray)
+
+      // Conditions
+      if (this.incidentDataStore.selectedCondition.length) {
+        for (let i = 0; i < DATASET.length; i++) {
+          if (DATASET[i].condition === this.incidentDataStore.selectedCondition) {
+            console.log('cities match', this.incidentDataStore.selectedCondition)
+            this.conditionsArray.push({
+              id: DATASET[i].id,
+              city: DATASET[i].city,
+              latitude: DATASET[i].latitude,
+              longitude: DATASET[i].longitude,
+              incidentType: DATASET[i].incidentType,
+              location: DATASET[i].location,
+              reason: DATASET[i].reason,
+              condition: DATASET[i].condition,
+              type: DATASET[i].type,
+              zindex: i + 666
+            })
+          }
+        }
+        console.log('conditionsArray', this.conditionsArray)
+        this.incidentDataStore.setSelectedData(this.conditionsArray)
+      }
+
+      // Incident Types
+      if (this.incidentDataStore.selectedType.length) {
+        for (let i = 0; i < DATASET.length; i++) {
+          if (DATASET[i].city === this.incidentDataStore.selectedType) {
+            console.log('cities match', this.incidentDataStore.selectedType)
+            this.incidentsArray.push({
+              id: DATASET[i].id,
+              city: DATASET[i].city,
+              latitude: DATASET[i].latitude,
+              longitude: DATASET[i].longitude,
+              incidentType: DATASET[i].incidentType,
+              location: DATASET[i].location,
+              reason: DATASET[i].reason,
+              condition: DATASET[i].condition,
+              type: DATASET[i].type,
+              zindex: i + 666
+            })
+          }
+        }
+        console.log('incidentsArray', this.incidentsArray)
+        this.incidentDataStore.setSelectedData(this.citiesArray)
+      }
     }
+    // TODO: Change SELECTED_DATA to the three types
+    // TODO: Merge search when more than one type is selected
     // end of getData()
   }
 }
