@@ -1,5 +1,5 @@
 <template>
-  <div ref="map" id="map" style="height: 100%; width: 100%"></div>
+  <div ref="map" id="map" style="height: 100%; width: 100%; min-height: 500px"></div>
 </template>
 <script>
 import { mapStores } from 'pinia'

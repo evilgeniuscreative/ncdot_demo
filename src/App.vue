@@ -6,27 +6,13 @@ import NcdotData from './components/NcdotData.vue'
 
 <template>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarsExampleDefault"
-      aria-controls="navbarsExampleDefault"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-      <RouterLink to="/">Home</RouterLink>
-    </div>
+    <a class="navbar-brand pl-20" href="#">NC Incidents</a>
   </nav>
 
-  <main role="main" class="container w-full align-items-center">
-    <div class="row with-bg">
-      <div class="col-sm-5"><NcdotData></NcdotData></div>
-      <div class="col-sm-7"><GoogleMap></GoogleMap></div>
+  <main role="main" class="container align-items-center top-level-container">
+    <div class="row">
+      <div class="col-md-5 col-lg-5 col-sm-12"><NcdotData></NcdotData></div>
+      <div class="col-md-7 col-lg-7 col-sm-12"><GoogleMap></GoogleMap></div>
     </div>
   </main>
 </template>

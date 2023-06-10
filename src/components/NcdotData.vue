@@ -7,10 +7,18 @@
 <template>
   <div class="title-text-wrap">
     <h1>NC Incident Locator</h1>
-    <p>Select any one of the three dropdowns and click the 'Get Data' button.</p>
     <p>
-      The map will be repositioned to the first Marker and all incidents that are current will be
-      shown and labeled, with a hover text label with more information.
+      Select any combination of the three dropdowns and click the 'Get Data' button. Results are
+      additive.
+    </p>
+    <p>
+      The map will be repositioned to the first Marker and zoomed in, and all incidents that are
+      current will be shown and labeled, with a hover text label with more information.
+    </p>
+    <p class="smaller">
+      NOTE: This is currently a work in progress. Still TODO: (1) Responsive media queries or figure
+      out why Boostrap is failing to work as expected dropdowns on mobile; opened a ticket and SO
+      question. (2) Better formatted Map Pin hover content.
     </p>
   </div>
   <form>
